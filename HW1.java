@@ -1,6 +1,6 @@
 
 /*
- * *** PLACE YOUR NAME / SECTION  HERE ***
+ * *** Fiore Cassettari / 002 SP25 ***
  *
  * Homework # 1 (Programming Assignment). This Java class defines some basic
  * manipulation operations on Linked-Lists and Stacks.
@@ -11,6 +11,9 @@
  * specific number returned.
  */
 
+import com.sun.source.tree.ArrayAccessTree;
+
+import java.util.ArrayList;
 import java.util.Stack;
 
 public class HW1 {
@@ -83,12 +86,23 @@ public class HW1 {
          * value that is less than the provided parameter 'ltValue'.
          *
          * The method will invoke the method removeElements for each element
-         * found in the linked-list that is less than thr parameter value passed.
+         * found in the linked-list that is less than the parameter value passed.
          */
         public void removeElementsLT ( int ltValue ) {
 
-            // YOUR CODE GOES HERE
+            //Before starting, check if the head is < ltValue
+            //if it is, skip it out of the list and start from the next element until head.data >= ltValue
+            while(head.data < ltValue) { head = head.next; }
 
+            //Getting the head of the list to start iterating from
+            Node current = head;
+            //Iterating over the entire list
+            while(current.next != null) {
+                //This "Breaks the chain" of the current element, skipping over the current element.
+                if(current.next.data < ltValue) { current.next = current.next.next; }
+                //current node's data is not < ltValue, so continue iterating.
+                else { current = current.next; }
+            }
             return;
         }
 
@@ -99,9 +113,19 @@ public class HW1 {
          */
 
         public void removeElement ( int value ) {
+            //Before starting, check if the head is equal to the given value
+            //if it is, skip it out of the list and start from the next element until head.data != value
+            while(head.data == value) { head = head.next; }
 
-            // YOUR CODE GOES HERE
+            //Getting the head of the list to start iterating from
+            Node current = head;
+            //Iterating over the entire list
+            while(current.next != null) {
 
+                if(current.next.data == value) { current.next = current.next.next; }
+                //current node's data is not < ltValue, so continue iterating.
+                else { current = current.next; }
+            }
             return;
         }
 
@@ -155,12 +179,20 @@ public class HW1 {
          *
          * The method should utilize the provided Stack class.
          */
+        //replaceAll() reminder <------
         public static boolean isPalindrome(String input) {
 
             Stack<Character> stack = new Stack<>();
             input = input.toLowerCase().replaceAll("\\s+", "");
 
-            // Your CODE GOES HERE
+            //Reversing the input string
+            String reversed = "";
+            char ch;
+            //Iterating over the string and rebuilding it backwards
+            for (int i = 0; i < input.length(); i++) { ch = input.charAt(i); reversed = ch + reversed; }
+            //If the input string is the same as the reversed string, return true. Returns false otherwise
+            if (input.compareTo(reversed) == 0) { return true; }
+
             return false;
         }
 
@@ -169,7 +201,7 @@ public class HW1 {
          * Method findLargestk() - This method will return the largest index
          * position in the stack for the value specified by the parameter 'k'.
          *
-         * Note that the bottom of the stack is index location 0. So it you push
+         * Note that the bottom of the stack is index location 0. So if you push
          * on to the stack the values 3 4 9 4 4 7 4, in that order. And you pass the
          * value '4' for the parameter k, then the largest index position is index
          * location 6.
@@ -178,12 +210,21 @@ public class HW1 {
          * destroy the passed in stack, meaning when the method returns, the passed in
          * stack should be identical to when this method is passed. One trick as you
          * pop elements off the passed in stack, place them in a temp stack. Then when
-         * completed, place them all back in teh original stack.
+         * completed, place them all back in the original stack.
          */
         public static int findLargestK(Stack<Integer> stack, int k) {
-
-            // YOUR CODE GOES HERE
-            return -1;
+            //Creating a new stack to temporarily store the contents
+            Stack<Integer> tempStack = new Stack<>();
+            //Creating an arraylist to store the values, because I want to use the lastIndexOf() method
+            ArrayList<Integer> intList = new ArrayList<>();
+            //Popping everything from the passed stack to the temporary one
+            while (!stack.isEmpty()) { tempStack.push(stack.pop()); }
+            //Popping the contents of the temp stack into my array list
+            while (!tempStack.isEmpty()) { intList.add(tempStack.pop()); }
+            //Putting everything from the list back into the stack
+            for (int i = 0; i <= intList.size()-1; i++) { stack.push(intList.get(i)); }
+            //Returning the last index of k
+            return intList.lastIndexOf(k);
         }
 
     }  // End class Stacks
@@ -219,7 +260,7 @@ public class HW1 {
         */
 
         // RETURN THE CORRECT OPTION NUMBER LISTED ABOVE
-        return -1;
+        return 3;
     }
 
 
@@ -240,7 +281,7 @@ public class HW1 {
          */
 
         // RETURN THE CORRECT OPTION LISTED ABOVE
-        return -1;
+        return 2;
     }
 
 }
